@@ -23,10 +23,10 @@ export function HeroSection() {
 					src="/images/hero.webp"
 					alt="FREMI Maskinentreprenør"
 					fill
-				priority
-				className="object-cover"
+					priority
+					className="object-cover"
 				quality={75}
-			/>
+				/>
 				<div className="absolute inset-0 bg-black/50" />
 			</div>
 
@@ -64,7 +64,7 @@ export function HeroSection() {
 							</motion.button>
 
 					{/* Contact Info */}
-					<div className="relative z-40 mt-45 flex flex-col items-center gap-4 text-white sm:flex-row sm:justify-center sm:gap-6">
+					<div className="relative z-40 mt-8 flex flex-col items-center gap-4 text-white sm:mt-12 sm:flex-row sm:justify-center sm:gap-6">
 						<a
 							href={`mailto:${t.company.email}`}
 							className="flex items-center gap-2 transition-colors hover:text-accent"

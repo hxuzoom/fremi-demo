@@ -28,9 +28,7 @@ export async function sendContactEmail(data: ContactFormData) {
 					<table role="presentation" style="width: 100%; border-collapse: collapse;">
 						<tr>
 							<td style="padding: 40px 0; text-align: center; background-color: #000000;">
-								<img src="https://fremi-demo.vercel.app/fremi.webp" alt="FREMI Logo" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
-								<h1 style="margin: 20px 0 0 0; color: #ff6b35; font-size: 32px; font-weight: bold;">FREMI</h1>
-								<p style="margin: 5px 0 0 0; color: #ffffff; font-size: 14px;">Pålitelig maskinentreprenør</p>
+								<img src="https://fremi-demo.vercel.app/images/og.webp" alt="FREMI Logo" style="max-width: 600px; width: 100%; height: auto; border-radius: 8px;">
 							</td>
 						</tr>
 						<tr>

@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Send } from 'lucide-react'
 import { useLanguage } from '@/contexts/language-context'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Toast } from '@/components/ui/toast'
 import dynamic from 'next/dynamic'
 
 const ContactMap = dynamic(() => import('./contact-map').then((mod) => ({ default: mod.ContactMap })), {
@@ -34,8 +35,10 @@ type ContactFormData = z.infer<typeof contactSchema>
 export function ContactSection() {
 	const { t, language, languageKey } = useLanguage()
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [submitSuccess, setSubmitSuccess] = useState(false)
-	const [submitError, setSubmitError] = useState<string | null>(null)
+	const [toast, setToast] = useState<{
+		message: string
+		type: 'success' | 'error'
+	} | null>(null)
 
 	const {
 		register,
@@ -48,7 +51,7 @@ export function ContactSection() {
 
 	const onSubmit = async (data: ContactFormData) => {
 		setIsSubmitting(true)
-		setSubmitError(null)
+		setToast(null)
 
 		try {
 			const response = await fetch('/api/contact', {
@@ -62,11 +65,13 @@ export function ContactSection() {
 			const result = await response.json()
 
 			if (response.status === 429) {
-				setSubmitError(
-					language === 'no'
-						? 'For mange forespørsler. Vennligst prøv igjen senere.'
-						: 'Too many requests. Please try again later.'
-				)
+				setToast({
+					message:
+						language === 'no'
+							? 'For mange forespørsler. Vennligst prøv igjen senere.'
+							: 'Too many requests. Please try again later.',
+					type: 'error',
+				})
 				setIsSubmitting(false)
 				return
 			}
@@ -75,16 +80,23 @@ export function ContactSection() {
 				throw new Error(result.message || 'Failed to submit form')
 			}
 
-			setSubmitSuccess(true)
+			setToast({
+				message:
+					language === 'no'
+						? 'Melding sendt! Vi kontakter deg snart.'
+						: 'Message sent! We will contact you soon.',
+				type: 'success',
+			})
 			reset()
-			setTimeout(() => setSubmitSuccess(false), 5000)
 		} catch (error) {
 			console.error('Form submission error:', error)
-			setSubmitError(
-				language === 'no'
-					? 'Noe gikk galt. Vennligst prøv igjen.'
-					: 'Something went wrong. Please try again.'
-			)
+			setToast({
+				message:
+					language === 'no'
+						? 'Noe gikk galt. Vennligst prøv igjen.'
+						: 'Something went wrong. Please try again.',
+				type: 'error',
+			})
 		} finally {
 			setIsSubmitting(false)
 		}
@@ -92,6 +104,14 @@ export function ContactSection() {
 
 	return (
 		<section id="contact" className="bg-black py-20 lg:py-28">
+			{toast && (
+				<Toast
+					message={toast.message}
+					type={toast.type}
+					onClose={() => setToast(null)}
+				/>
+			)}
+
 			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 				<AnimatePresence mode="wait">
 					<motion.div
@@ -253,28 +273,6 @@ export function ContactSection() {
 									</>
 								)}
 							</motion.button>
-
-							{submitSuccess && (
-								<motion.div
-									initial={{ opacity: 0, y: -10 }}
-									animate={{ opacity: 1, y: 0 }}
-									className="rounded-lg bg-green-900/20 p-4 text-center text-green-400"
-								>
-									{language === 'no'
-										? 'Melding sendt! Vi kontakter deg snart.'
-										: 'Message sent! We will contact you soon.'}
-								</motion.div>
-							)}
-
-							{submitError && (
-								<motion.div
-									initial={{ opacity: 0, y: -10 }}
-									animate={{ opacity: 1, y: 0 }}
-									className="rounded-lg bg-red-900/20 p-4 text-center text-red-400"
-								>
-									{submitError}
-								</motion.div>
-							)}
 					</form>
 				</motion.div>
 			</AnimatePresence>

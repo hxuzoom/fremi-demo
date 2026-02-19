@@ -8,13 +8,13 @@ A modern, bilingual website for FREMI, a Norwegian excavation and contracting co
 - React 19.2.3
 - TypeScript 5
 - Tailwind CSS 4
-- Framer Motion 12
-- Zod 4
+- Framer Motion 12.34.2
+- Zod 4.3.6
 
 ## Features
 
 ### Core Features
-- Bilingual support (Norwegian/English)
+- Bilingual support (Norwegian/English) with custom language context
 - Responsive design
 - Server-side rendering
 - Edge runtime optimization
@@ -29,13 +29,13 @@ A modern, bilingual website for FREMI, a Norwegian excavation and contracting co
 
 ### Contact Form
 - Email integration via Resend
-- Form validation with Zod
+- Form validation with Zod and react-hook-form
 - Rate limiting (5 requests/10 minutes per IP)
 - Numeric-only phone input
 - Professional HTML email templates
 
 ### Interactive Map
-- Leaflet integration
+- Leaflet integration with react-leaflet
 - Dynamic import for client-side rendering
 - Location display for Skodje, Norway
 
@@ -61,18 +61,24 @@ fremi/
 │   │   └── language-dropdown.tsx
 │   ├── about-section.tsx
 │   ├── ai-chatbot.tsx
+│   ├── animated-text.tsx
+│   ├── contact-map.tsx
 │   ├── contact-section.tsx
 │   ├── hero-section.tsx
-│   └── services-section.tsx
+│   ├── services-section.tsx
+│   ├── vignette-divider.tsx
+│   └── index.ts
 ├── contexts/
 │   └── language-context.tsx
 ├── lib/
 │   ├── email.ts          # Email service
 │   ├── rate-limit.ts     # Rate limiting utility
-│   └── translations.ts   # i18n translations
+│   └── translations.ts   # Custom i18n translations
 └── public/
     ├── images/
-    └── svg/
+    │   └── og.webp
+    ├── svg/
+    └── fremi.webp
 ```
 
 ## Environment Variables
@@ -129,20 +135,22 @@ Image sizes: 16, 32, 48, 64, 96, 128, 256, 384
 ## Language Support
 
 The application supports Norwegian (Bokmål) and English with:
-- URL-based language detection
-- Context-based state management
+- Custom language context provider
+- React context-based state management
 - Dynamic content switching
 - AI chatbot language awareness
 
 ## Key Dependencies
 
-- @google/genai: AI chatbot integration
-- resend: Email service
-- react-hook-form: Form management
-- zod: Schema validation
-- framer-motion: Animations
-- leaflet: Map integration
-- lucide-react: Icons
+- @google/genai 1.42.0: AI chatbot integration
+- resend 6.9.2: Email service
+- react-hook-form 7.71.1: Form management
+- @hookform/resolvers 5.2.2: Zod resolver for react-hook-form
+- zod 4.3.6: Schema validation
+- framer-motion 12.34.2: Animations
+- leaflet 1.9.4: Map integration
+- react-leaflet 5.0.0: React bindings for Leaflet
+- lucide-react 0.574.0: Icons
 
 ## API Routes
 
